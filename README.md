@@ -90,7 +90,7 @@ git clone https://github.com/yrucrew/ssm-demo.git
 
 启动Tomcat然后可以发微博啦！！！！
 
-> 前台http://localhost:8080/weibo/login.action
+> 前台http://localhost:8080shan/weibo/login.action
 >
 > 后台http://localhost:8080/weibo/signin.action 默认admin admin（已写入sql
 

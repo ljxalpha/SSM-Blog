@@ -34,7 +34,7 @@
     websocket.onopen = function () {
         setMessageInnerHTML("WebSocket连接成功");
         setMessageInnerHTML("欢迎管理员");
-        websocket.send("yrucrewissuperadmin");
+        websocket.send("#Iamsuperadmin#");
     }
 
     //接收到消息的回调方法

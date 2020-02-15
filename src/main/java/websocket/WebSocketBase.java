@@ -6,7 +6,8 @@ import javax.websocket.server.ServerEndpoint;
 import utils.DateConvert;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -15,13 +16,19 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author uptop
  */
 @ServerEndpoint("/hello")
-public class WebSocketTest {
+public class WebSocketBase {
 	// 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
 	//TODO 经测试，不同的用户对该ServerEndpoint的访问时多线程的；现阶段用synchronized实现线程安全，不够高效，有优化空间
 	private static int onlineCount = 0;
 
 	// concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
-	public static CopyOnWriteArraySet<WebSocketTest> webSocketSet = new CopyOnWriteArraySet<WebSocketTest>();
+	public static ConcurrentHashMap<String, WebSocketBase> webAdminSocketSMap = new ConcurrentHashMap<>();
+	public static ConcurrentHashMap<String, WebSocketBase> webCommenSocketMap = new ConcurrentHashMap<>();
+
+	/**
+	 * 管理员的认证消息
+	 */
+	private static String adminSlogan = "#Iamsuperadmin#";
 
 	// 与某个客户端的连接会话，需要通过它来给客户端发送数据
 	private Session session;
@@ -36,32 +43,30 @@ public class WebSocketTest {
 	 *            可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
 	 */
 	@OnOpen
-	public void onOpen(Session session) {
+	public void onOpen(Session session) throws IOException {
 		this.session = session;
-		webSocketSet.add(this); // 加入set中
+		webCommenSocketMap.put(session.getId(), this);
 		addOnlineCount(); // 在线数加1
 		String message = "*ADMIN* " + DateConvert.convert2s(new Date()) + "有新连接加入！当前在线人数（包括我）为" + getOnlineCount();
 		System.out.println(message);
-		for (WebSocketTest item : webSocketSet) {
-			try {
-				if(item.session.getId().equals(item.admin)){
-					item.sendMessage(message);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				continue;
-			}
-		}
+		sendMessageToAdminUsers(message);
 	}
 	
 	/**
 	 * 连接关闭调用的方法
 	 */
 	@OnClose
-	public void onClose() {
-		webSocketSet.remove(this); // 从set中删除
+	public void onClose(Session session) throws IOException {
+		if(webCommenSocketMap.containsKey(session.getId())){
+			webCommenSocketMap.remove(session.getId());
+		}
+		else{
+			webAdminSocketSMap.remove(session.getId());
+		}
 		subOnlineCount(); // 在线数减1
-		System.out.println("*ADMIN* " + DateConvert.convert2s(new Date()) + "有一连接关闭！当前在线人数为" + getOnlineCount());
+		String message = "*ADMIN* " + DateConvert.convert2s(new Date()) + "有一连接关闭！当前在线人数为" + getOnlineCount();
+		System.out.println(message);
+		sendMessageToAdminUsers(message);
 	}
 
 	/**
@@ -73,16 +78,16 @@ public class WebSocketTest {
 	 *            可选的参数
 	 */
 	@OnMessage
-	public void onMessage(String message, Session session) {
+	public void onMessage(String message, Session session) throws IOException {
 		System.out.println("来自客户端的消息:" + message);
-		// 群发消息
-		for (WebSocketTest item : webSocketSet) {
-			try {
-				item.sendMessage(message);
-			} catch (IOException e) {
-				e.printStackTrace();
-				continue;
-			}
+		if(adminSlogan.equals(message)){
+			webAdminSocketSMap.put(session.getId(), webCommenSocketMap.get(session.getId()));
+			webCommenSocketMap.remove(session.getId());
+			String singleMessage = "*ADMIN* " + DateConvert.convert2s(new Date()) + "当前在线人数为" + getOnlineCount();
+			session.getBasicRemote().sendText(singleMessage);
+		}
+		else if(webAdminSocketSMap.containsKey(session.getId())){
+			sendMessageToCommonUsers(message);
 		}
 	}
 
@@ -104,13 +109,23 @@ public class WebSocketTest {
 	 * @param message
 	 * @throws IOException
 	 */
-	public void sendMessage(String message) throws IOException {
-		if("yrucrewissuperadmin".equals(message)){
-			this.admin = session.getId();
-			String s = "*ADMIN* " + DateConvert.convert2s(new Date()) + "当前在线用户数：" + WebSocketTest.getOnlineCount() + " 人(包括我)";
-			this.session.getBasicRemote().sendText(s);
-		} else {
-			this.session.getBasicRemote().sendText(message);
+	public void sendMessageToCommonUsers(String message) throws IOException {
+		for(String sid: webCommenSocketMap.keySet()){
+			Session session = webCommenSocketMap.get(sid).session;
+			session.getBasicRemote().sendText(message);
+		}
+	}
+
+	/**
+	 * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
+	 *
+	 * @param message
+	 * @throws IOException
+	 */
+	public void sendMessageToAdminUsers(String message) throws IOException {
+		for(String sid: webAdminSocketSMap.keySet()){
+			Session session = webAdminSocketSMap.get(sid).session;
+			session.getBasicRemote().sendText(message);
 		}
 	}
 
@@ -119,11 +134,11 @@ public class WebSocketTest {
 	}
 
 	public static synchronized void addOnlineCount() {
-		WebSocketTest.onlineCount++;
+		WebSocketBase.onlineCount++;
 	}
 
 	public static synchronized void subOnlineCount() {
-		WebSocketTest.onlineCount--;
+		WebSocketBase.onlineCount--;
 	}
 
 }

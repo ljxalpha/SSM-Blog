@@ -68,13 +68,11 @@
 
 	//将消息显示在网页上
 	function setMessageInnerHTML(innerHTML) {
-		var msg = innerHTML;
-		if (msgindexOf("*ADMIN* ") == -1) {// 没有管理员标识
-			var message = '<div class="alert alert-warning">'
-					+ '<a href="#" class="close" data-dismiss="alert">'
-					+ '&times;</a>' + '<strong>通知！</strong>' + msg + '</div>';
-			$('#message').prepend(message);
-		}
+	var msg = innerHTML;
+		var message = '<div class="alert alert-warning">'
+				+ '<a href="#" class="close" data-dismiss="alert">'
+				+ '&times;</a>' + '<strong>通知！</strong>' + msg + '</div>';
+		$('#message').prepend(message);
 	}
 
 	//关闭WebSocket连接

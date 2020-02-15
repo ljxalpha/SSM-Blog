@@ -33,8 +33,8 @@
 	//判断当前浏览器是否支持WebSocket
 	if ('WebSocket' in window) {
 		//TODO 与WebSocket相关，部署之后可能需要修改
-		// websocket = new WebSocket("ws://localhost:8080/weibo/hello");
-		websocket = new WebSocket("ws://192.168.1.103:8080/weibo/hello");
+		websocket = new WebSocket("ws://localhost:8080/weibo/hello");
+		// websocket = new WebSocket("ws://192.168.1.103:8080/weibo/hello");
 	} else {
 		alert('当前浏览器 Not support websocket')
 	}

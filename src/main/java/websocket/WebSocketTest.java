@@ -17,6 +17,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/hello")
 public class WebSocketTest {
 	// 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
+	//TODO 经测试，不同的用户对该ServerEndpoint的访问时多线程的；现阶段用synchronized实现线程安全，不够高效，有优化空间
 	private static int onlineCount = 0;
 
 	// concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识

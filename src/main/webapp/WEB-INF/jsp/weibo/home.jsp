@@ -139,7 +139,6 @@
 					</div>
 				</form>
 			</div>
-
 			<c:forEach items="${weiboList }" var="weibo" varStatus="status">
 				<div id="weiboItem">
 					<!-- 头部 -->

@@ -32,7 +32,9 @@
 	var websocket = null;
 	//判断当前浏览器是否支持WebSocket
 	if ('WebSocket' in window) {
-		websocket = new WebSocket("ws://localhost:8080/weibo/hello");
+		//TODO 与WebSocket相关，部署之后可能需要修改
+		// websocket = new WebSocket("ws://localhost:8080/weibo/hello");
+		websocket = new WebSocket("ws://192.168.1.103:8080/weibo/hello");
 	} else {
 		alert('当前浏览器 Not support websocket')
 	}
@@ -45,6 +47,7 @@
 	//连接成功建立的回调方法
 	websocket.onopen = function() {
 		//setMessageInnerHTML("WebSocket连接成功");
+		// websocket.send("普通客户端自言自语");
 	}
 
 	//接收到消息的回调方法
@@ -66,7 +69,7 @@
 	//将消息显示在网页上
 	function setMessageInnerHTML(innerHTML) {
 		var msg = innerHTML;
-		if (msg.indexOf("*ADMIN* ") == -1) {// 没有管理员标识
+		if (msgindexOf("*ADMIN* ") == -1) {// 没有管理员标识
 			var message = '<div class="alert alert-warning">'
 					+ '<a href="#" class="close" data-dismiss="alert">'
 					+ '&times;</a>' + '<strong>通知！</strong>' + msg + '</div>';

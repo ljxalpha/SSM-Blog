@@ -1,7 +1,9 @@
 /*! WebUploader 0.1.5 */
 
+//TODO 这里导致了pic_pic1
 idPrefix = 'pic_',
-            idSuffix = 1;
+// idPrefix = '',
+    idSuffix = 1;
 
 
 /**
@@ -4092,8 +4094,9 @@ idPrefix = 'pic_',
             // 完成上传。
             _finishFile: function( file, ret, hds ) {
                 var owner = this.owner;
-                
+//TODO 这里导致了pic_pic_1
                 $('#pic_' + file.id).val(ret.picName);
+//                 $('#' + file.id).val(ret.picName);
                 return owner
                         .request( 'after-send-file', arguments, function() {
                             file.setStatus( Status.COMPLETE );

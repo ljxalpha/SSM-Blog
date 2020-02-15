@@ -33,7 +33,8 @@ import po.Page;
  * 所以利用拦截器实现Mybatis分页的一个思路就是拦截StatementHandler接口的prepare方法
  * 然后在拦截器方法中把Sql语句改成对应的分页查询Sql语句，之后再调用StatementHandler对象的prepare方法，即调用invocation.proceed()。
  * 对于分页而言，在拦截器里面我们还需要做的一个操作就是统计满足当前条件的记录一共有多少，这是通过获取到了原始的Sql语句后，
- * 把它改为对应的统计语句再利用Mybatis封装好的参数和设置参数的功能把Sql语句中的参数进行替换，之后再执行查询记录数的Sql语句进行总记录数的统计。
+ * 把它改为对应的统计语句再利用Mybatis封装好的参数和设置参数的功能把Sql语句中的参数进行替换，
+ * 之后再执行查询记录数的Sql语句进行总记录数的统计。
  * 
  */
 @Intercepts({

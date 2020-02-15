@@ -29,11 +29,13 @@ $(function() {
         method: 'POST',
     });
     // 当有文件添加进来的时候  
-    uploader.on('fileQueued', function(file) { // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。等效于 uploader.onFileueued = function(file){...} ，类似js的事件定义。  
+    uploader.on('fileQueued', function(file) { // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。等效于 uploader.onFileueued = function(file){...} ，类似js的事件定义。
         var $li = $(
         		'<li id="' + file.id + '" class="file-item thumbnail">' +
                 '<img>' +
+            //TODO 这里和pic_pic_1有关
                 '<input type="hidden" id="pic_'+file.id + '" name="pic_' + file.id + '" >' +
+            // '<input type="hidden" id="'+file.id + '" name="' + file.id + '" >' +
                 '<div id="div_' + file.id + '" class="info btn-success" style="display:none">上传成功</div>' + 
                 '<div style="cursor: pointer;" class="btn-danger webuploadDelbtn">删除</div>' +
                 '</li>'

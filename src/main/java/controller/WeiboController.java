@@ -156,7 +156,9 @@ public class WeiboController {
 	public String post(HttpServletRequest request, HttpSession session, Model model, WeiboVo weiboVo) throws Exception {
 		int count = 0;
 		for (int i = 1; i < 30; i++) {
+//			TODO：要不要将pic_pic_1改成pic_1
 			String pic = request.getParameter("pic_pic_" + i);
+//			String pic = request.getParameter("pic_" + i);
 			if (pic != null) {
 				count++;
 				switch (count) {

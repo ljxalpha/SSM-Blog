@@ -8,7 +8,6 @@ import utils.DateConvert;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @ServerEndpoint 注解是一个类层次的注解，它的功能主要是将目前的类定义成一个websocket服务器端,
@@ -21,7 +20,8 @@ public class WebSocketBase {
 	//TODO 经测试，不同的用户对该ServerEndpoint的访问时多线程的；现阶段用synchronized实现线程安全，不够高效，有优化空间
 	private static int onlineCount = 0;
 
-	// concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
+	// concurrent包的线程安全Map，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
+	//一个Map用来存储管理员的信息，一个用来存储普通用户的信息
 	public static ConcurrentHashMap<String, WebSocketBase> webAdminSocketSMap = new ConcurrentHashMap<>();
 	public static ConcurrentHashMap<String, WebSocketBase> webCommenSocketMap = new ConcurrentHashMap<>();
 
@@ -33,9 +33,6 @@ public class WebSocketBase {
 	// 与某个客户端的连接会话，需要通过它来给客户端发送数据
 	private Session session;
 
-	// 管理员
-	private String admin;
-	
 	/**
 	 * 连接建立成功调用的方法
 	 *

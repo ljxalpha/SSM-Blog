@@ -2,6 +2,7 @@ package service.impl;
 
 import java.util.List;
 
+import mapper.dao.LuceneDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +15,13 @@ import service.WeiboService;
 @Transactional
 public class WeiboServiceImpl implements WeiboService {
 
-	@Autowired
+
 	private WeiboMapperCustom weiboMapperCustom;
+
+	@Autowired
+	public WeiboServiceImpl(WeiboMapperCustom weiboMapperCustom){
+		this.weiboMapperCustom = weiboMapperCustom;
+	}
 
 
 	// 根据用户id查询微博列表
@@ -47,6 +53,12 @@ public class WeiboServiceImpl implements WeiboService {
 	@Override
 	public List<WeiboCustom> queryWeiboByWeiboId(Integer weiboId) throws Exception {
 		return weiboMapperCustom.queryWeiboByWeiboId(weiboId);
+	}
+
+	//根据微博id的列表查询微博列表
+	@Override
+	public List<WeiboCustom> queryWeiboByWeiboIdList(List<Integer> weiboIdList) throws Exception{
+		return weiboMapperCustom.queryWeiboByWeiboIdList(weiboIdList);
 	}
 
 	// 转发微博
@@ -133,6 +145,22 @@ public class WeiboServiceImpl implements WeiboService {
 		page.setResults(weiboList);
 		
 		return page;
+	}
+
+	@Override
+	public Page<WeiboCustom> queryAllWeibo(int pageNo) throws Exception {
+		Page<WeiboCustom> page = new Page<>();
+		page.setPageSize(100);
+		page.setPageNo(pageNo);
+		List<WeiboCustom> weiboCustomList = weiboMapperCustom.queryAllWeibo(page);
+		page.setResults(weiboCustomList);
+		return page;
+	}
+
+	@Override
+	public int queryLastWeiboIdByUserId(int userId) throws Exception {
+		int weiboId = weiboMapperCustom.queryLastWeiboIdByUserId(userId);
+		return weiboId;
 	}
 
 }

@@ -46,6 +46,7 @@ public class PageInterceptor implements Interceptor {
 	/**
 	 * 拦截后要执行的方法
 	 */
+	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		// 对于StatementHandler其实只有两个实现类，
 		// 一个是RoutingStatementHandler，

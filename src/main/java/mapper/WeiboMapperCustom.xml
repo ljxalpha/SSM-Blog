@@ -30,7 +30,18 @@
 			<result column="city" property="city" jdbcType="VARCHAR" />
 		</association>
 	</resultMap>
-	
+
+
+	<select id="queryLastWeiboIdByUserId" parameterType="int" resultType="int">
+		SELECT weibo.weibo_id
+		FROM weibo WHERE weibo.user_id = #{userId} ORDER BY weibo.post_time DESC LIMIT 0,1
+	</select>
+
+	<select id="queryAllWeibo" resultMap="WeiboResultMap">
+		SELECT weibo.*
+		FROM weibo ORDER BY weibo_id
+	</select>
+
 	<!-- 实时——所有人 -->
 	<select id="queryAllWeiboNow" resultMap="WeiboResultMap">
 		SELECT user.nickname,user.face,weibo.* 
@@ -65,6 +76,14 @@
 	<!-- 根据微博id查询微博 -->
 	<select id="queryWeiboByWeiboId" parameterType="int" resultMap="WeiboResultMap">
 		SELECT * FROM weibo,USER WHERE weibo.weibo_id=#{weiboId} AND user.user_id=weibo.user_id
+	</select>
+
+	<!-- 根据微博id列表查询微博 -->
+	<select id="queryWeiboByWeiboIdList" parameterType="java.lang.Integer" resultMap="WeiboResultMap">
+		SELECT * FROM weibo,USER WHERE user.user_id=weibo.user_id AND weibo.weibo_id IN
+		<foreach item="weiboId" collection="list" open="(" separator="," close=")">
+			#{weiboId}
+		</foreach>
 	</select>
 
 	<!-- 根据微博id删除微博 -->

@@ -40,4 +40,11 @@
 	
 	<!-- 管理员 -->
 	<bean id="adminService" class="service.impl.AdminServiceImpl"></bean>
+
+	<!-- 管理员 -->
+	<bean id="weiboLuceneService" class="service.impl.WeiboLuceneServiceImpl"></bean>
+
+	<!--Lucene的Dao	-->
+	<bean id="LuceneDao" class="mapper.dao.LuceneDao" scope="singleton" lazy-init="false" destroy-method="deleteAllIndex">
+	</bean>
 </beans>

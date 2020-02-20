@@ -252,50 +252,52 @@
 				<!--回复区域 end-->
 			</div>
 			<hr>
-			<div class="container" style="width: auto; background-color: #fff;">
-				<!-- 分页 -->
-				<ul class="pagination pagination-lg">
-					<!-- 上一页 -->
-					<li><a href="queryAllWeiboFriends.action?pageNo=${page.pageNo-1 }">&laquo;</a></li>
-					<c:choose>
-						<%-- 第一条：如果总页数<=5，那么页码列表为1 ~ tp --%>
-						<c:when test="${page.totalPage <= page.pageSize }">
-							<c:set var="begin" value="1" />
-							<c:set var="end" value="${page.totalPage }" />
-						</c:when>
-						<c:otherwise>
-							<%-- 第二条：按公式计算，让列表的头为当前页+2；列表的尾为当前页+2 --%>
-							<c:set var="begin" value="${page.pageNo-2 }" />
-							<c:set var="end" value="${page.pageNo+2 }" />
 
-							<%-- 第三条：第二条只适合在中间，而两端会出问题。这里处理begin出界！ --%>
-							<%-- 如果begin<1，那么让begin=1，相应end=10 --%>
-							<c:if test="${begin<1 }">
-								<c:set var="begin" value="1" />
-								<c:set var="end" value="5" />
-							</c:if>
-							<%-- 第四条：处理end出界。如果end>tp，那么让end=tp，相应begin=tp-4 --%>
-							<c:if test="${end>page.totalPage }">
-								<c:set var="begin" value="${page.totalPage-4 }" />
-								<c:set var="end" value="${page.totalPage }" />
-							</c:if>
-						</c:otherwise>
-					</c:choose>
-					<c:forEach begin="${begin}" end="${end}" var="i">
-						<c:if test="${i==page.pageNo }">
-							<li class="active"><a href="#">${i}</a></li>
-						</c:if>
-						<c:if test="${i!=page.pageNo }">
-							<li><a href="queryAllWeiboFriends.action?pageNo=${i }">${i}</a></li>
-						</c:if>
-					</c:forEach>
-					<!-- 下一页 -->
-					<li><a href="queryAllWeiboFriends.action?pageNo=${page.pageNo+1 }">&raquo;</a></li>
-				</ul>
-			</div>
 		</div>
 	</div>
 	</c:forEach>
+
+	<div class="container" style="width:  850px;; background-color: #fff;">
+		<!-- 分页 -->
+		<ul class="pagination pagination-lg">
+			<!-- 上一页 -->
+			<li><a href="queryWeiboByWord.action?pageNo=${page.pageNo-1 }&keyWord=${keyWord}">&laquo;</a></li>
+			<c:choose>
+				<%-- 第一条：如果总页数<=5，那么页码列表为1 ~ tp --%>
+				<c:when test="${page.totalPage <= page.pageSize }">
+					<c:set var="begin" value="1" />
+					<c:set var="end" value="${page.totalPage }" />
+				</c:when>
+				<c:otherwise>
+					<%-- 第二条：按公式计算，让列表的头为当前页+2；列表的尾为当前页+2 --%>
+					<c:set var="begin" value="${page.pageNo-2 }" />
+					<c:set var="end" value="${page.pageNo+2 }" />
+
+					<%-- 第三条：第二条只适合在中间，而两端会出问题。这里处理begin出界！ --%>
+					<%-- 如果begin<1，那么让begin=1，相应end=10 --%>
+					<c:if test="${begin<1 }">
+						<c:set var="begin" value="1" />
+						<c:set var="end" value="5" />
+					</c:if>
+					<%-- 第四条：处理end出界。如果end>tp，那么让end=tp，相应begin=tp-4 --%>
+					<c:if test="${end>page.totalPage }">
+						<c:set var="begin" value="${page.totalPage-4 }" />
+						<c:set var="end" value="${page.totalPage }" />
+					</c:if>
+				</c:otherwise>
+			</c:choose>
+			<c:forEach begin="${begin}" end="${end}" var="i">
+				<c:if test="${i==page.pageNo }">
+					<li class="active"><a href="#">${i}</a></li>
+				</c:if>
+				<c:if test="${i!=page.pageNo }">
+					<li><a href="queryWeiboByWord.action?pageNo=${i }&keyWord=${keyWord}">${i}</a></li>
+				</c:if>
+			</c:forEach>
+			<!-- 下一页 -->
+			<li><a href="queryWeiboByWord.action?pageNo=${page.pageNo+1 }&keyWord=${keyWord}">&raquo;</a></li>
+		</ul>
+	</div>
 
 	<script type="text/javascript">
 	

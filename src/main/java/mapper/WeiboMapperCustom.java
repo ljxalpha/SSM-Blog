@@ -9,8 +9,11 @@ import po.WeiboVo;
 
 public interface WeiboMapperCustom {
 
+	//查询指定用户的最新一篇微博的Id
+	public int queryLastWeiboIdByUserId(Integer userId) throws Exception;
+
 	// 遍历所有微博
-	// public List<WeiboCustom> queryAllWeibo() throws Exception;
+	 public List<WeiboCustom> queryAllWeibo(Page<WeiboCustom> page) throws Exception;
 
 	// 分页遍历——实时
 	public List<WeiboCustom> queryAllWeiboNow(Page<WeiboCustom> page) throws Exception;
@@ -33,6 +36,8 @@ public interface WeiboMapperCustom {
 
 	// 根据微博id查询微博
 	public List<WeiboCustom> queryWeiboByWeiboId(Integer weiboId) throws Exception;
+
+	public List<WeiboCustom> queryWeiboByWeiboIdList(List<Integer> weiboIdList) throws Exception;
 
 	// 转发微博
 	public void repost(WeiboCustom weibo) throws Exception;

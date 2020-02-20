@@ -21,6 +21,9 @@ public interface WeiboService {
 	// 根据微博Id查询微博信息
 	public List<WeiboCustom> queryWeiboByWeiboId(Integer weiboId) throws Exception;
 
+	//根据微博id的列表查询微博列表
+	public List<WeiboCustom> queryWeiboByWeiboIdList(List<Integer> weiboIdList) throws Exception;
+
 	// 转发
 	public void repost(WeiboCustom weibo) throws Exception;
 
@@ -47,5 +50,11 @@ public interface WeiboService {
 
 	// 根据关键字搜索相关微博
 	public Page<WeiboCustom> queryWeiboByWord(String keyWord, int pageNo) throws Exception;
+
+	// 遍历所有微博
+	public Page<WeiboCustom> queryAllWeibo(int pageNo) throws Exception;
+
+	//查询用户发的最新一篇微博的id
+	public int queryLastWeiboIdByUserId(int userId) throws Exception;
 
 }

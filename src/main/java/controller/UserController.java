@@ -323,8 +323,15 @@ public class UserController {
 			weiboCustom.setDate(dateConvert.convert2s(weiboCustom.getPostTime()));
 			// 非原创 即属于转发微博
 			if (weiboCustom.getOriginal() == 0) {
-				WeiboCustom repostWeibo = weiboService.queryWeiboByWeiboId(weiboCustom.getRepostId()).get(0);
-				repostWeibo.setDate(dateConvert.convert2s(repostWeibo.getPostTime()));
+				WeiboCustom repostWeibo = null;
+				try{
+					repostWeibo = weiboService.queryWeiboByWeiboId(weiboCustom.getRepostId()).get(0);
+					repostWeibo.setDate(dateConvert.convert2s(repostWeibo.getPostTime()));
+				}
+				catch (IndexOutOfBoundsException e){
+					repostWeibo = new WeiboCustom();
+					repostWeibo.setContent("原始微博已被作者删除！");
+				}
 				weiboCustom.setRepost(repostWeibo);
 			}
 		}
@@ -369,8 +376,15 @@ public class UserController {
 			weiboCustom.setDate(dateConvert.convert2s(weiboCustom.getPostTime()));
 			// 非原创 即属于转发微博
 			if (weiboCustom.getOriginal() == 0) {
-				WeiboCustom repostWeibo = weiboService.queryWeiboByWeiboId(weiboCustom.getRepostId()).get(0);
-				repostWeibo.setDate(dateConvert.convert2s(repostWeibo.getPostTime()));
+				WeiboCustom repostWeibo = null;
+				try{
+					repostWeibo = weiboService.queryWeiboByWeiboId(weiboCustom.getRepostId()).get(0);
+					repostWeibo.setDate(dateConvert.convert2s(repostWeibo.getPostTime()));
+				}
+				catch (IndexOutOfBoundsException e){
+					repostWeibo = new WeiboCustom();
+					repostWeibo.setContent("原始微博已被作者删除！");
+				}
 				weiboCustom.setRepost(repostWeibo);
 			}
 		}

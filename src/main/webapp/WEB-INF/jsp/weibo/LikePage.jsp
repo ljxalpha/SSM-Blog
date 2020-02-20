@@ -79,7 +79,7 @@
 			<br> <br>
 			<table align="center" style="table-layout: fixed;">
 				<tr>
-					<td><a href="queryUserPage.action?userId=${user.userId}">${user.weiboCount }微博&nbsp;</a></td>
+					<td><a href="queryUserPage.action?pageNo=1&userId=${user.userId}">${user.weiboCount }微博&nbsp;</a></td>
 					<td><a href="listFollow.action?userId=${user.userId }">${user.followCount }关注&nbsp;</a></td>
 					<td><a href="listFans.action?userId=${user.userId }">${user.fansCount }粉丝</td>
 				</tr>
@@ -189,7 +189,7 @@
 
 	//跳至userId的用户主页
 	function clickother(userId) {
-		var url = "queryUserPage.action?userId=" + userId;
+		var url = "queryUserPage.action?pageNo=1&userId=" + userId;
 		window.location=url;
 	}
 	

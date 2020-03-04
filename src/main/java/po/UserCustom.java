@@ -1,6 +1,8 @@
 package po;
 
-public class UserCustom extends User {
+import java.io.Serializable;
+
+public class UserCustom extends User implements Serializable {
 
 	// 用户生日String
 	private String bir_String;

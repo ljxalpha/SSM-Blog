@@ -24,6 +24,19 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
+
+	<!--	Session共享filter-->
+	<filter>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<!--		<dispatcher>REQUEST</dispatcher>-->
+		<!--		<dispatcher>ERROR</dispatcher>-->
+	</filter-mapping>
+
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -36,6 +49,8 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

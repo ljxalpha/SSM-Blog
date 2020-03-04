@@ -116,7 +116,7 @@
 		<div style="width: 70%; float: left;">
 			<!-- 发送新微博 -->
 			<div class="container" style="width: auto; background-color: #fff;">
-				<p style="font-size: 40px; color: black">分享新鲜事</p>
+				<p style="font-size: 40px; color: black">分享新鲜事8080-${user.age}</p>
 				<form method="post" action="post.action">
 					<textarea class="form-control" rows="4"
 						style="border: 1px; resize: none; width: 100%; background-color: #eee"

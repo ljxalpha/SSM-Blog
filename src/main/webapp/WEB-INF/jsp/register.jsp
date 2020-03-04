@@ -22,7 +22,7 @@
         <div class="site-wrapper-inner">
             <div class="cover-container">
                 <div class="inner cover">
-                    <h1 class="cover-heading">发现新鲜事！</h1>
+                    <h1 class="cover-heading">发现新鲜事8080-${user.age}！</h1>
                     <form class="form-signin" method="post" action="${pageContext.request.contextPath }/register.action">
                         <div class="from-group">
                             <span id="error_username" style="color: #ff5b5b; font-size: 17px" name="error_username">${error_username }</span>

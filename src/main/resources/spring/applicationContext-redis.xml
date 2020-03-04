@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 引入redis配置 -->
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
+    <!-- Redis 配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis.pool.maxTotal}" />
+        <property name="maxIdle" value="${redis.pool.maxIdle}" />
+        <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}" />
+        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+    </bean>
+
+
+    <!-- redis单节点数据库连接配置 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.ip}" />
+        <property name="port" value="${redis.port}" />
+        <property name="password" value="${redis.password}"/>
+        <property name="poolConfig" ref="jedisPoolConfig" />
+    </bean>
+    <bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+<!--        这个是配置session过期时间，以秒为单位，默认半个小时-->
+        <property name="maxInactiveIntervalInSeconds" value="18000"/>
+    </bean>
+
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+    <bean id="jdkSerializationRedisSerializer"
+          class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+    <bean id="GenericToStringSerializer"
+          class="org.springframework.data.redis.serializer.JacksonJsonRedisSerializer">
+        <constructor-arg value="po.UserCustom"></constructor-arg>
+    </bean>
+
+    <!-- Redis Template -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+        <!-- 新增 -->
+        <property name="keySerializer" ref="stringRedisSerializer" />
+<!--        <property name="hashKeySerializer" ref="stringRedisSerializer" />-->
+        <property name="valueSerializer" ref="GenericToStringSerializer" />
+    </bean>
+
+</beans>

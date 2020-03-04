@@ -1,5 +1,7 @@
 package po;
 
-public class MentionCustom extends Mention {
+import java.io.Serializable;
+
+public class MentionCustom extends Mention implements Serializable {
 
 }

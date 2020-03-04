@@ -1,6 +1,8 @@
 package po;
 
-public class Relation {
+import java.io.Serializable;
+
+public class Relation implements Serializable {
     private Integer relationId;
 
     private Integer userId;

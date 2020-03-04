@@ -22,7 +22,7 @@
       <div class="site-wrapper-inner">
         <div class="cover-container">
           <div class="inner cover">
-            <h1 class="cover-heading">发现新鲜事！</h1>
+            <h1 class="cover-heading">发现新鲜事8080-${user.age}！</h1>
             <h1 class="cover-heading" style="color: #52c250" name="register_success">${register_success }</h1>
             <h1 class="cover-heading" style="color: #52c250" name="register_success">${updatepassword_success }</h1>
             <form class="form-signin" action="${pageContext.request.contextPath }/loginUser.action" method="post">

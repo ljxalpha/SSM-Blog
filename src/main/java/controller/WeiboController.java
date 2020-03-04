@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mapper.UserMapper;
+import mapper.UserMapperCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,6 +65,8 @@ public class WeiboController {
 
 	@Autowired
 	private WeiboLuceneService weiboLuceneService;
+
+	@Autowired UserMapperCustom userMapperCustom;
 
 	// date格式化工具类
 	private DateConvert dateConvert;
@@ -295,7 +299,9 @@ public class WeiboController {
 
 		// 当前用户信息
 		UserCustom user = (UserCustom) session.getAttribute("user");
-
+//		int userId = (Integer) session.getAttribute("user");
+//		UserCustom user = (UserCustom) userMapperCustom.queryInfoByUserId(userId).get(0);
+//		user.setUserId(userId);
 		// 页码
 		if (pageNo == 0) {
 			pageNo = 1;

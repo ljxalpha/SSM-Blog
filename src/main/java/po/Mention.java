@@ -1,6 +1,8 @@
 package po;
 
-public class Mention {
+import java.io.Serializable;
+
+public class Mention implements Serializable {
     private Integer mentionId;
 
     private Integer userId;

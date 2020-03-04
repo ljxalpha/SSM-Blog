@@ -177,6 +177,7 @@ public class UserController {
 			user.setMentionCustom(mention);
 			user.setPassword(null);
 			session.setAttribute("user", user);
+//			session.setAttribute("user", user.getUserId());
 			request.setAttribute("pageNo", 1);
 			return "forward:/queryAllWeiboNow.action?pageNo=1";
 		} else {

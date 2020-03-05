@@ -33,8 +33,8 @@
     <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
     <bean id="jdkSerializationRedisSerializer"
           class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
-    <bean id="GenericToStringSerializer"
-          class="org.springframework.data.redis.serializer.JacksonJsonRedisSerializer">
+    <bean id="Jackson2JsonRedisSerializer"
+          class="org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer">
         <constructor-arg value="po.UserCustom"></constructor-arg>
     </bean>
 
@@ -44,7 +44,7 @@
         <!-- 新增 -->
         <property name="keySerializer" ref="stringRedisSerializer" />
 <!--        <property name="hashKeySerializer" ref="stringRedisSerializer" />-->
-        <property name="valueSerializer" ref="GenericToStringSerializer" />
+        <property name="valueSerializer" ref="Jackson2JsonRedisSerializer" />
     </bean>
 
 </beans>
